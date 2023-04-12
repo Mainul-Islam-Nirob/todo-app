@@ -5,9 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do-App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="content"></div>
+    <div id="content">
+        <div id="header">To Do List</div>
+        <div class="body">
+            <div id="sidebar">
+                <ul id="cat">
+                    <li class="cat-item">To Do</li>
+                    <li class="cat-item">Note</li>
+                    <li class="cat-item">Important</li>
+                    <li class="cat-item">Project</li> 
+                    <!-- add sub title here -->
+                    <li class="cat-item">Archive</li>
+                </ul>
+
+                <div id="addBtn">+</div>
+            </div>
+            <div id="main">
+                <div id="main-title">To Do</div>
+                <div class="todoItems">
+                    <div class="todoItem">
+                        <h4 class="title">Finish the app</h4>
+                        <p class="details">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, molestiae ut non est nulla corporis.</p>
+                        <span class="dueDate">12-12-1919</span>
+                        <span class="priority">important</span>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
