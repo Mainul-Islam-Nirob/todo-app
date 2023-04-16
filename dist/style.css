@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 :root {
-    --green: #41644a;
-    --dark: #263a29;
-    --orange: #e86a33;
     --light: #f2e3db;
+    --maroon: #903749;
+    --purple: #53354A;
+    --blue: #2B2E4A;
 }
 
 *,
@@ -27,7 +27,7 @@ body {
 }
 
 #content {
-    background-color: var(--dark);
+    background-color: var(--light);
     width: 100vw;
     height: 100vh;
 
@@ -36,7 +36,7 @@ body {
 /* Header Style */
 
 #header {
-    background-color: var(--orange);
+    background-color: var(--blue);
     height: 6rem;
     display: flex;
     align-items: center;
@@ -47,18 +47,17 @@ body {
 }
 /* 
 #header:hover {
-    color: var(--green);
+    color: var(--purple);
 } */
 
 .body {
     display: flex;
     
-
 }
 
 #sidebar{
-    min-width: 25rem;
-    background-color: var(--orange);
+    min-width: 32rem;
+    background-color: var(--blue);
     height: calc(100vh - 6rem);
     padding-bottom: 5rem;
     display: flex;
@@ -66,58 +65,342 @@ body {
     justify-content: space-between;
 }
 
-#cat {
+#nav-items {
     align-self: center;
 }
 
-#cat .cat-item {
+.nav-item {
+    display: flex;
+    justify-content: space-between;
     list-style: none;
     color: var(--light);
     font-size: 3rem;
     font-weight: bold;
     cursor: pointer;
     text-align: left;
+    margin-top: .8rem;
+    border-bottom: .5px solid transparent;
+    
+
 }
 
-#cat .cat-item:hover {
-    color: var(--green);
-    transform:scaleX(1.2);
-    /* font-size: 3.2rem; */
+.nav-item:hover {
+    color: var(--maroon);
+    border-bottom: .5px solid var(--light);
+
 }
 
-#addBtn {
+.project-list {
+    display: flex;
+    flex-direction: column;
+    color: var(--light);
+    font-size: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.project {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: .5px solid var(--maroon);
+}
+
+.project-name {
+    margin-right: 10px;
+}
+
+.project-name:hover {
+    color: aqua;
+    cursor:  pointer;
+}
+
+.projectBtns {
+    display: flex;
+    gap: 4px;
+}
+.projectBtn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 8rem;
-    height: 8rem;
+    width: 1.8rem;
+    height: 1.8rem;
     border-radius: 50%;
     color: var(--light);
-    background-color: var(--green);
-    font-size: 5rem;
+    /* background-color: aqua; */
+    font-size: 1.8rem;
+    font-weight: bold;
     cursor: pointer;
     align-self: center;
     /* change the shadow */
-    box-shadow: 4px 4px 4px var(--dark); 
+     box-shadow: 4px 4px 4px var(--blue); 
 }
 
-#addBtn:hover {
+.projectBtn:hover {
+    color: var(--maroon);
+}
+
+.projectAdd:hover {
+    transform: scale(1.1); 
+}
+
+.addBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    color: var(--light);
+    background-color: var(--maroon);
+    font-size: 1.8rem;
+    cursor: pointer;
+    align-self: center;
+    /* change the shadow */
+    box-shadow: 4px 4px 4px var(--blue); 
+}
+
+.addBtn:hover {
     transform: scale(1.1);
 }
-
-
 
 #main {
      
 }
-
 .todoItems {
-    width: 22rem;
-    height: 25rem;
-    background-color: var(--light);
-    color: var(--dark);
-    border: 2px solid var(--green);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem;
+}
+.todoItem {
+    width: 25rem;
+    height: auto;
+    background-color: var(--purple);
+    color: var(--light);
+    border: 2px solid var(--purple);
     border-radius: 1rem;
+    margin: 1rem;
+    padding: 2rem;
 }
 
+.index {
+    font-style: normal;
+    font-weight: bold;
+}
+.t-title {
+    font-size: 2rem;
+    text-align: center;
+    border-bottom: 3px solid var(--light);
+    padding-bottom: .5rem;
+    margin-bottom: 1rem;
+}
+
+.t-description {
+    font-size: 1.5rem;
+}
+
+.t-priority {
+    font-size: 1.6rem;
+    font-style: italic;
+}
+
+.t-dueDate {
+    font-size: 1.6rem;
+    font-style: italic;
+    margin-top: 2rem;
+
+}
+
+.edit-item {
+    display: flex;
+    font-size: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.edit-btn {
+    border: 2px solid var(--light);
+    border-radius: .5rem;
+    min-width: 7rem;
+    text-align: center;
+    margin: 0 .5rem;
+    padding: 0 1rem;
+}
+
+
+.edit-btn:hover {
+    background-color: var(--blue);
+    cursor: pointer;
+
+}
+
+/* Add Project modal style */
+#projectModal {
+    background-color: var(--purple);
+    width: 40rem;
+    height: auto;
+    border-radius: .5rem;
+    display: none;
+  
+}
+
+.projectName {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+
+
+
+/* ------------Add todo Modal Style--------- */
+#todoModal {
+    display: none;
+}
+.modalContent {
+    position: relative;
+    text-align: center;
+    background-color: var(--maroon);
+    color: var(--light);
+
+    padding: 2rem;
+    width: 60rem;
+    height: auto;
+    border-radius: 1rem;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2),
+                0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    animation-name: modalOpen;
+    animation-duration: .5s;
+}
+
+@keyframes modalOpen {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.titleDate {
+    display: flex;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 50%;
+    
+}
+
+.title {
+    margin-right: 2rem;
+}
+
+.closeBtn {
+    position: absolute;
+    top: -15px;
+    right: 10px;
+    color: gray;
+    font-size: 45px;
+    font-weight: bolder;
+}
+
+.closeBtn:hover, .closeBtn:focus {
+    color: var(--blue);
+    cursor: pointer;
+}
+
+#modal-form label {
+    font-size: 2.2rem;
+    margin-top: 1rem;
+}
+
+textarea {
+    width: 560px ;
+    height: 180px;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+#modal-form input {
+    width: auto;
+    padding: 5px 10px;
+    font-size: 2rem;
+    margin: 5px 0;
+    color: #333;
+    border-radius: 5px;
+    border-color: rgba(197, 182, 182, 0.555);
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px; 
+    /* width: 100%; */
+    height: 3.5rem;
+}
+
+#modal-form > input:invalid:focus {
+    border: 2px solid red;
+}
+
+#modal-form > input:valid:focus {
+    border: 2px solid green;
+}
+
+.priority {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+#modal-form .btn {
+    width: 10rem;
+    padding: 10px 0;
+    font-size: 1.6rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#add-btn {
+    margin-top: 3rem;
+    background-color: var(--blue);
+    color: var(--light);
+    border: 3px solid var(--light);
+
+}
+
+#add-btn:hover {
+    background-color: var(--light);
+    color: var(--blue);
+    border: 3px solid var(--blue);
+}
+
+#low-btn {
+    background-color: var(--light);
+    color: green;
+    border: 3px solid green;
+}
+
+#low-btn:hover {
+    background-color: green;
+    color: var(--light);
+    border: 3px solid var(--light);
+
+    
+}
+
+#high-btn {
+    background-color: var(--light);
+    color: red;
+    border: 3px solid red;
+    border: 3px solid red;
+
+}
+
+#high-btn:hover {
+    background-color: red;
+    color: var(--light);
+    border: 3px solid var(--light);
+}
 

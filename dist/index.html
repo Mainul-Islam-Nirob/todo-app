@@ -1,43 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To-Do-App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="content">
-        <div id="header">To Do List</div>
-        <div class="body">
-            <div id="sidebar">
-                <ul id="cat">
-                    <li class="cat-item">To Do</li>
-                    <li class="cat-item">Note</li>
-                    <li class="cat-item">Important</li>
-                    <li class="cat-item">Project</li> 
-                    <!-- add sub title here -->
-                    <li class="cat-item">Archive</li>
-                </ul>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css" />
 
-                <div id="addBtn">+</div>
+  </head>
+  <body>
+    <div id="content">
+      <div id="header">To Do</div>
+      <div class="body">
+
+        <!-- Sidebar  -->
+        <div id="sidebar">
+          <div id="nav-items">
+            <div class="nav-item">
+              <span class="nav-name">To Do</span>
+              <span class="addBtn">+</span>
             </div>
-            <div id="main">
-                <div id="main-title">To Do</div>
-                <div class="todoItems">
-                    <div class="todoItem">
-                        <h4 class="title">Finish the app</h4>
-                        <p class="details">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, molestiae ut non est nulla corporis.</p>
-                        <span class="dueDate">12-12-1919</span>
-                        <span class="priority">important</span>
-                    </div>
-    
+            <!-- <div class="nav-item">
+              <span class="nav-name">Note</span>
+              <span class="addBtn">+</span>
+            </div> -->
+            <div class="nav-item">
+                <span class="nav-name">Projects</span>
+                <span class="addBtn">+</span>
+            </div>
+                <!-- Project List  -->
+                <div class="project-list">
+                    <div class="project">
+                        <span class="project-name">To Do List</span>
+                        <div class="projectBtns">
+                          <i class="projectBtn fa-solid fa-pen-to-square"></i>
+                          <i class="projectBtn fa-regular fa-trash"></i> 
+                          <i class="projectBtn fa-sharp fa-solid fa-plus"></i>                       
+                         </div>                    
+                        </div>  
+                        
+                    
+                    <div class="project">
+                        <span class="project-name">Restaurant</span>
+                        <div class="projectBtns">
+                          <i class="projectBtn fa-solid fa-pen-to-square"></i>
+                          <i class="projectBtn fa-regular fa-trash"></i> 
+                          <i class="projectBtn fa-sharp fa-solid fa-plus"></i>                       
+                         </div>                    
+                        </div>  
+                   
+                    <div class="project">
+                        <span class="project-name">Tic-Tac-Toe</span>
+                        <div class="projectBtns">
+                          <i class="projectBtn fa-solid fa-pen-to-square"></i>
+                          <i class="projectBtn fa-regular fa-trash"></i> 
+                          <i class="projectBtn fa-sharp fa-solid fa-plus"></i>                       
+                         </div>                    
+                        </div>   
+                    
+                    <div class="project">
+                        <span class="project-name">Rock Paper Scissor</span>
+                        <div class="projectBtns">
+                          <i class="projectBtn fa-solid fa-pen-to-square"></i>
+                          <i class="projectBtn fa-regular fa-trash"></i> 
+                          <i class="projectBtn fa-sharp fa-solid fa-plus"></i>                       
+                        </div>                    
                 </div>
+              </div>
+            <div class="nav-item">
+              <span class="nav-name">Important</span>
             </div>
+            <div class="nav-item">
+                <span class="nav-name">Completed</span>
+              </div>
+            <div class="nav-item">
+                <span class="nav-name">Archive</span>
+            </div>
+          </div>
         </div>
-        
+
+        <!-- Main Section  -->
+        <div id="main">
+          <!-- <div id="main-title">To Do</div> -->
+          <div class="todoItems">
+            <div class="todoItem">
+              <h4 class="t-title"><span>Title:</span> Finish the app</h4>
+              <p class="details">
+                <!-- <span>Description: </span> -->
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Possimus, molestiae ut non est nulla corporis.
+              </p>
+              <div class="t-dueDate">
+                <span class="index">Due Date: </span>
+                <span>12-12-1919</span>
+            </div>
+              <div class="t-priority">
+                <span class="index">Priority:</span>
+                <span>important</span>
+            </div>
+            <div class="edit-item">
+              <span class="edit-btn">
+                Edit
+              </span><span class="edit-btn">
+                Delete
+              </span>
+            </div>
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Add Project Modal -->
+    <div class="modalContent" id="projectModal">
+      <div class="closeBtn" id="closeBtn">&times;</div>
+      <h1 class="modal-title title">New Project</h1>
+      <form action="#" id="modal-form">
+          <div class="projectName">
+              <label for="projectName">Name:</label>
+              <input type="text" required name="name" id="projectName" placeholder="Rock Paper Scissor">
+          </div>
+          <button class="btn" id="add-btn">Add</button>
+      </form>
+  </div>
+
+    <!-- Add To Do Modal -->
+    <div class="modalContent" id="todoModal">
+        <div class="closeBtn" id="closeBtn">&times;</div>
+        <h1 class="modal-title title">New Task</h1>
+        <form action="#" id="modal-form">
+          <div class="titleDate">
+              <div class="title inputContainer">
+                <label for="title">Title:</label>
+                <input type="text" required name="title" id="title" placeholder="Title">
+              </div>
+            
+            <div class="dueDate inputContainer">
+                <label for="date">Due Date:</label>
+                <input type="date" required name="date" id="date">
+            </div>
+          </div>
+           
+            <div class="description inputContainer">
+                <label for="details">Description:</label>
+                <textarea name="details" id="details">Details...</textarea>
+            </div>
+
+           <div class="priority">
+            <label for="">Priority:</label>
+            <div class="priority-btn">
+                <button type="button" class="btn" id="low-btn">Low</button>
+                <button type="button" class="btn" id="high-btn">High</button>    
+            </div>
+           </div>
+            <button class="btn" id="add-btn">Add</button>
+        </form>
+    </div>
+</div>
+    
     <script src="main.js"></script>
-</body>
+  </body>
 </html>
