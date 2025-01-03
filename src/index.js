@@ -15,11 +15,13 @@ const TodoFactory = (title, description, dueDate, priority) => {
   const addProject = (name) => {
     const project = ProjectFactory(name);
     projects.push(project);
+    saveData(); 
     displayProjects();
   };
   
   const addTodoToProject = (projectIndex, todo) => {
     projects[projectIndex].todos.push(todo);
+    saveData(); 
     displayTodos(projectIndex);
   };
   
@@ -108,7 +110,7 @@ const TodoFactory = (title, description, dueDate, priority) => {
       const editContainer = document.createElement('div');
       editContainer.classList.add('edit-item');
   
-      const editBtn = document.createElement('button');
+      const editBtn = document.createElement('span');
       editBtn.classList.add('edit-btn');
       editBtn.textContent = 'Edit';
       editBtn.addEventListener('click', () => {
@@ -117,7 +119,7 @@ const TodoFactory = (title, description, dueDate, priority) => {
       });
       editContainer.appendChild(editBtn);
   
-      const deleteBtn = document.createElement('button');
+      const deleteBtn = document.createElement('span');
       deleteBtn.classList.add('edit-btn');
       deleteBtn.textContent = 'Delete';
       deleteBtn.addEventListener('click', () => {
@@ -234,28 +236,55 @@ console.log("Other ID:", otherId);
   document.getElementById('todo-form').addEventListener('submit', handleTodoSubmit);
   document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
   
+  
   // Load data from localStorage if available
+  // const loadData = () => {
+  //   const data = localStorage.getItem('todoAppData');
+  //   projects.length = 0; 
+  //   if (data) {
+  //     const parsedData = JSON.parse(data);
+  //     parsedData.forEach(project => {
+  //       const newProject = ProjectFactory(project.name);
+  //       project.todos.forEach(todo => {
+  //         newProject.todos.push(TodoFactory(todo.title, todo.description, todo.dueDate, todo.priority));
+  //       });
+  //       projects.push(newProject);
+  //     });
+  //     displayProjects();
+  //   } else {
+  //     // Create default project
+  //     addProject('Default Project');
+  //   }
+  // };
+  
   const loadData = () => {
     const data = localStorage.getItem('todoAppData');
+    // projects.length = 0; 
     if (data) {
-      const parsedData = JSON.parse(data);
-      parsedData.forEach(project => {
-        const newProject = ProjectFactory(project.name);
-        project.todos.forEach(todo => {
-          newProject.todos.push(TodoFactory(todo.title, todo.description, todo.dueDate, todo.priority));
+        const parsedData = JSON.parse(data);
+        parsedData.forEach(project => {
+            const newProject = ProjectFactory(project.name);
+            project.todos.forEach(todo => {
+                newProject.todos.push(TodoFactory(todo.title, todo.description, todo.dueDate, todo.priority));
+            });
+            projects.push(newProject);
         });
-        projects.push(newProject);
-      });
-      displayProjects();
+        displayProjects();
+        
+        // Display todos for the first project if it exists
+        if (projects.length > 0) {
+            displayTodos(0); // Display todos for the first project
+        }
     } else {
-      // Create default project
-      addProject('Default Project');
+        // Create default project
+        addProject('Default Project');
     }
-  };
-  loadData();
+};
   
+  // loadData();
   // Save data to localStorage
   const saveData = () => {
     localStorage.setItem('todoAppData', JSON.stringify(projects));
   };
   
+document.addEventListener('DOMContentLoaded', loadData);
