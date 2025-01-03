@@ -240,6 +240,10 @@ body {
     height: auto;
     border-radius: .5rem;
     display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed; 
   
 }
 
@@ -273,6 +277,7 @@ body {
     animation-name: modalOpen;
     animation-duration: .5s;
 }
+
 
 @keyframes modalOpen {
     from {
@@ -317,7 +322,7 @@ body {
     cursor: pointer;
 }
 
-#modal-form label {
+.modal-form label {
     font-size: 2.2rem;
     margin-top: 1rem;
 }
@@ -329,7 +334,7 @@ textarea {
     color: #333;
 }
 
-#modal-form input {
+.modal-form input {
     width: auto;
     padding: 5px 10px;
     font-size: 2rem;
@@ -342,11 +347,11 @@ textarea {
     height: 3.5rem;
 }
 
-#modal-form > input:invalid:focus {
+.modal-form > input:invalid:focus {
     border: 2px solid red;
 }
 
-#modal-form > input:valid:focus {
+.modal-form > input:valid:focus {
     border: 2px solid green;
 }
 
@@ -356,7 +361,7 @@ textarea {
     text-align: left;
 }
 
-#modal-form .btn {
+.modal-form .btn {
     width: 10rem;
     padding: 10px 0;
     font-size: 1.6rem;
@@ -365,7 +370,7 @@ textarea {
     cursor: pointer;
 }
 
-#add-btn {
+#add-project-btn, #add-todo-btn {
     margin-top: 3rem;
     background-color: var(--blue);
     color: var(--light);
@@ -373,37 +378,42 @@ textarea {
 
 }
 
-#add-btn:hover {
+#add-project-btn, #add-todo-btn:hover {
     background-color: var(--light);
     color: var(--blue);
     border: 3px solid var(--blue);
 }
 
-#low-btn {
+.low-btn {
     background-color: var(--light);
-    color: green;
-    border: 3px solid green;
+    color: rgb(2, 73, 2);
+    border: 3px solid rgb(2, 73, 2);
 }
 
-#low-btn:hover {
-    background-color: green;
+.low-btn:hover {
+    background-color: rgb(2, 73, 2);
     color: var(--light);
     border: 3px solid var(--light);
 
     
 }
 
-#high-btn {
+.high-btn {
     background-color: var(--light);
-    color: red;
-    border: 3px solid red;
-    border: 3px solid red;
+    color: rgb(111, 4, 4);
+    border: 3px solid rgb(111, 4, 4);
+    border: 3px solid rgb(111, 4, 4);
 
 }
 
-#high-btn:hover {
-    background-color: red;
+.high-btn:hover {
+    background-color: rgb(111, 4, 4);
     color: var(--light);
     border: 3px solid var(--light);
 }
 
+.selected {
+    background-color: var(--blue);
+    color: white;
+    border: none;
+  }

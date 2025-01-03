@@ -25,24 +25,115 @@ const TodoFactory = (title, description, dueDate, priority) => {
   
   const displayProjects = () => {
     const projectList = document.getElementById('project-list');
-    projectList.innerHTML = '';
+    projectList.innerHTML = ''; // Clear previous projects
+
     projects.forEach((project, index) => {
-      const li = document.createElement('li');
-      li.textContent = project.name;
-      li.addEventListener('click', () => displayTodos(index));
-      projectList.appendChild(li);
+        // Create a div for the project
+        const projectDiv = document.createElement('div');
+        projectDiv.classList.add('project');
+
+        // Create the project name span
+        const projectName = document.createElement('span');
+        projectName.classList.add('project-name');
+        projectName.textContent = project.name;
+
+        // Create the project buttons container
+        const projectBtns = document.createElement('div');
+        projectBtns.classList.add('projectBtns');
+
+        // Create the edit button
+        const editBtn = document.createElement('i');
+        editBtn.classList.add('projectBtn', 'fa-solid', 'fa-pen-to-square');
+        editBtn.onclick = () => editProject(index); // Add click event for editing
+
+        // Create the delete button
+        const deleteBtn = document.createElement('i');
+        deleteBtn.classList.add('projectBtn', 'fa-regular', 'fa-trash');
+        deleteBtn.onclick = () => deleteProject(index); // Add click event for deleting
+
+        // Create the add todo button
+        const addTodoBtn = document.createElement('i');
+        addTodoBtn.classList.add('projectBtn', 'fa-sharp', 'fa-solid', 'fa-plus');
+        addTodoBtn.onclick = () => addTodoToProject(index); // Add click event for adding todo
+
+        // Append buttons to the buttons container
+        projectBtns.appendChild(editBtn);
+        projectBtns.appendChild(deleteBtn);
+        projectBtns.appendChild(addTodoBtn);
+
+        // Append the project name and buttons to the project div
+        projectDiv.appendChild(projectName);
+        projectDiv.appendChild(projectBtns);
+
+        // Append the project div to the project list
+        projectList.appendChild(projectDiv);
     });
-  };
+};
   
   const displayTodos = (projectIndex) => {
     const todoList = document.getElementById('todo-list');
-    todoList.innerHTML = '';
-    projects[projectIndex].todos.forEach(todo => {
-      const li = document.createElement('li');
-      li.textContent = `${todo.title} - ${todo.dueDate}`;
-      todoList.appendChild(li);
+    todoList.innerHTML = ''; // Clear previous todos
+    console.log("project index", projectIndex)
+    projects[projectIndex].todos.forEach((todo, index) => {
+      console.log("todo from loop", todo, index)
+      // Create a container for the todo item
+      const todoItem = document.createElement('div');
+      todoItem.classList.add('todoItem'); // Apply your custom CSS class
+  
+      // Add the title
+      const titleElement = document.createElement('div');
+      titleElement.classList.add('t-title');
+      titleElement.textContent = todo.title;
+      todoItem.appendChild(titleElement);
+  
+      // Add the description
+      const descriptionElement = document.createElement('div');
+      descriptionElement.classList.add('t-description');
+      descriptionElement.textContent = todo.description;
+      todoItem.appendChild(descriptionElement);
+  
+      // Add the priority
+      const priorityElement = document.createElement('div');
+      priorityElement.classList.add('t-priority');
+      priorityElement.textContent = `Priority: ${todo.priority}`;
+      todoItem.appendChild(priorityElement);
+  
+      // Add the due date
+      const dueDateElement = document.createElement('div');
+      dueDateElement.classList.add('t-dueDate');
+      dueDateElement.textContent = `Due: ${todo.dueDate}`;
+      todoItem.appendChild(dueDateElement);
+  
+      // Add edit buttons
+      const editContainer = document.createElement('div');
+      editContainer.classList.add('edit-item');
+  
+      const editBtn = document.createElement('button');
+      editBtn.classList.add('edit-btn');
+      editBtn.textContent = 'Edit';
+      editBtn.addEventListener('click', () => {
+        // Logic to edit the todo
+        console.log(`Editing todo at index ${index}`);
+      });
+      editContainer.appendChild(editBtn);
+  
+      const deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('edit-btn');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.addEventListener('click', () => {
+        projects[projectIndex].todos.splice(index, 1); // Remove the todo
+        displayTodos(projectIndex); // Re-render the todos
+        saveData(); // Save the updated data to localStorage
+      });
+      editContainer.appendChild(deleteBtn);
+  
+      todoItem.appendChild(editContainer);
+  
+      // Append the todoItem to the todoList
+      todoList.appendChild(todoItem);
     });
   };
+  
   
   const showModal = (modalId) => {
     const modal = document.getElementById(modalId);
@@ -53,28 +144,95 @@ const TodoFactory = (title, description, dueDate, priority) => {
       modal.style.display = 'none';
     });
   };
+
+
+  let selectedPriority = ''; // Variable to store the selected priority
+
+// Add event listeners to the buttons
+document.getElementById('low-btn').addEventListener('click', () => {
+  selectedPriority = 'Low'; // Update the selected priority
+  updateButtonStyles('low-btn', 'high-btn'); // Optional: Update styles to indicate selection
+});
+
+document.getElementById('high-btn').addEventListener('click', () => {
+  selectedPriority = 'High'; // Update the selected priority
+  updateButtonStyles('high-btn', 'low-btn'); // Optional: Update styles to indicate selection
+});
+
   
-  const handleSubmit = (event) => {
+  const handleTodoSubmit = (event) => {
     event.preventDefault();
+    console.log("clicked add todo")
     const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
+    const description = document.getElementById('details').value;
     const dueDate = document.getElementById('date').value;
-    const priority = document.querySelector('input[name="priority"]:checked').value;
-  
+
+   
+    if (!selectedPriority) {
+      alert('Please select a priority!');
+      return;
+    }
+
+    const priority = selectedPriority;
+
+  console.log(title, description, dueDate, priority)
     const todo = TodoFactory(title, description, dueDate, priority);
+    console.log("todo details", todo);
     const selectedProjectIndex = 0; // For simplicity, adding todos to the first project
     addTodoToProject(selectedProjectIndex, todo);
   
     const modal = document.getElementById('todoModal');
     modal.style.display = 'none';
   
-    document.getElementById('modal-form').reset();
+    document.getElementById('todo-form').reset();
+    selectedPriority = '';
+    updateButtonStyles(); // Reset button styles
   };
+
+
+  
+  // Update button styles to indicate selection
+function updateButtonStyles(selectedId, otherId) {
+  console.log("Selected ID:", selectedId);
+console.log("Other ID:", otherId);
+
+  const selectedButton = document.getElementById(selectedId);
+  const otherButton = document.getElementById(otherId);
+
+  if (selectedButton) {
+    selectedButton.classList.add('selected'); // Add selected style
+    console.log(selectedButton)
+    console.log("change selected button style")
+  }
+
+  if (otherButton) {
+    otherButton.classList.remove('selected'); // Remove selected style
+    console.log("change other button style")
+
+  }
+}
+
+  const handleProjectSubmit = (event) => {
+    event.preventDefault();
+    console.log("clicked add")
+
+    const name = document.getElementById("projectName").value; 
+    console.log("project name", name)
+    addProject(name);
+
+    const modal = document.getElementById('projectModal');
+    modal.style.display = 'none';
+  
+    document.getElementById('project-form').reset();
+
+  }
+  
   
   // Event listeners
-  document.getElementById('addTodo').addEventListener('click', () => showModal('todoModal'));
-  document.getElementById('add-project-btn').addEventListener('click', () => showModal('projectModal'));
-  document.getElementById('modal-form').addEventListener('submit', handleSubmit);
+  document.getElementById('show-todo-modal').addEventListener('click', () => showModal('todoModal'));
+  document.getElementById('show-project-modal').addEventListener('click', () => showModal('projectModal'));
+  document.getElementById('todo-form').addEventListener('submit', handleTodoSubmit);
+  document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
   
   // Load data from localStorage if available
   const loadData = () => {

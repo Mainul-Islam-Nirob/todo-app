@@ -19,7 +19,7 @@
           <div id="nav-items">
             <div class="nav-item">
               <span class="nav-name">To Do</span>
-              <span id="addTodo" class="addBtn">+</span>
+              <span id="show-todo-modal" class="addBtn">+</span>
             </div>
             <!-- <div class="nav-item">
               <span class="nav-name">Note</span>
@@ -27,11 +27,11 @@
             </div> -->
             <div class="nav-item">
                 <span class="nav-name">Projects</span>
-                <span class="addBtn" id="addTo">+</span>
+                <span class="addBtn" id="show-project-modal">+</span>
             </div>
                 <!-- Project List  -->
-                <div class="project-list">
-                    <div class="project">
+                <div class="project-list" id="project-list">
+                    <!-- <div class="project">
                         <span class="project-name">To Do List</span>
                         <div class="projectBtns">
                           <i class="projectBtn fa-solid fa-pen-to-square"></i>
@@ -40,34 +40,8 @@
                          </div>                    
                         </div>  
                         
-                    
-                    <div class="project">
-                        <span class="project-name">Restaurant</span>
-                        <div class="projectBtns">
-                          <i class="projectBtn fa-solid fa-pen-to-square"></i>
-                          <i class="projectBtn fa-regular fa-trash"></i> 
-                          <i class="projectBtn fa-sharp fa-solid fa-plus"></i>                       
-                         </div>                    
-                        </div>  
-                   
-                    <div class="project">
-                        <span class="project-name">Tic-Tac-Toe</span>
-                        <div class="projectBtns">
-                          <i class="projectBtn fa-solid fa-pen-to-square"></i>
-                          <i class="projectBtn fa-regular fa-trash"></i> 
-                          <i class="projectBtn fa-sharp fa-solid fa-plus"></i>                       
-                         </div>                    
-                        </div>   
-                    
-                    <div class="project">
-                        <span class="project-name">Rock Paper Scissor</span>
-                        <div class="projectBtns">
-                          <i class="projectBtn fa-solid fa-pen-to-square"></i>
-                          <i class="projectBtn fa-regular fa-trash"></i> 
-                          <i class="projectBtn fa-sharp fa-solid fa-plus"></i>                       
-                        </div>                    
+                      -->
                 </div>
-              </div>
             <div class="nav-item">
               <span class="nav-name">Important</span>
             </div>
@@ -83,11 +57,11 @@
         <!-- Main Section  -->
         <div id="main">
           <!-- <div id="main-title">To Do</div> -->
-          <div class="todoItems">
+          <div id="todo-list" class="todoItems">
+            <!-- 
             <div class="todoItem">
               <h4 class="t-title"><span>Title:</span> Finish the app</h4>
               <p class="details">
-                <!-- <span>Description: </span> -->
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Possimus, molestiae ut non est nulla corporis.
               </p>
@@ -107,7 +81,7 @@
               </span>
             </div>
             </div>
-
+          -->
             
           </div>
         </div>
@@ -118,12 +92,12 @@
     <div class="modalContent" id="projectModal">
       <div class="closeBtn" id="closeBtn">&times;</div>
       <h1 class="modal-title title">New Project</h1>
-      <form action="#" id="modal-form">
+      <form action="#" class="modal-form" id="project-form">
           <div class="projectName">
               <label for="projectName">Name:</label>
               <input type="text" required name="name" id="projectName" placeholder="Rock Paper Scissor">
           </div>
-          <button class="btn" id="add-btn">Add</button>
+          <button class="btn" id="add-project-btn">Add</button>
       </form>
   </div>
 
@@ -131,7 +105,7 @@
     <div class="modalContent" id="todoModal">
         <div class="closeBtn" id="closeBtn">&times;</div>
         <h1 class="modal-title title">New Task</h1>
-        <form action="#" id="modal-form">
+        <form action="#" class="modal-form" id="todo-form">
           <div class="titleDate">
               <div class="title inputContainer">
                 <label for="title">Title:</label>
@@ -146,17 +120,17 @@
            
             <div class="description inputContainer">
                 <label for="details">Description:</label>
-                <textarea name="details" id="details">Details...</textarea>
+                <textarea name="details" id="details"></textarea>
             </div>
 
            <div class="priority">
             <label for="">Priority:</label>
             <div class="priority-btn">
-                <button type="button" class="btn" id="low-btn">Low</button>
-                <button type="button" class="btn" id="high-btn">High</button>    
+                <button type="button" class="btn low-btn" id="low-btn">Low</button>
+                <button type="button" class="btn high-btn" id="high-btn">High</button>    
             </div>
            </div>
-            <button class="btn" id="add-btn">Add</button>
+            <button class="btn" id="add-todo-btn">Add</button>
         </form>
     </div>
 </div>
