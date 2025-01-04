@@ -20,11 +20,15 @@ const TodoFactory = (title, description, dueDate, priority) => {
   };
   
   const addTodoToProject = (projectIndex, todo) => {
+    console.log("from add to do project", todo)
     projects[projectIndex].todos.push(todo);
     saveData(); 
     displayTodos(projectIndex);
   };
   
+  console.log(projects);
+
+
   const displayProjects = () => {
     const projectList = document.getElementById('project-list');
     projectList.innerHTML = ''; // Clear previous projects
@@ -56,7 +60,10 @@ const TodoFactory = (title, description, dueDate, priority) => {
         // Create the add todo button
         const addTodoBtn = document.createElement('i');
         addTodoBtn.classList.add('projectBtn', 'fa-sharp', 'fa-solid', 'fa-plus');
-        addTodoBtn.onclick = () => addTodoToProject(index); // Add click event for adding todo
+        addTodoBtn.onclick = () => {
+          selectedProjectIndex = index; // Store the index of the project
+          showModal('todoModal'); // Show the todo modal
+        }
 
         // Append buttons to the buttons container
         projectBtns.appendChild(editBtn);
@@ -161,6 +168,7 @@ document.getElementById('high-btn').addEventListener('click', () => {
   updateButtonStyles('high-btn', 'low-btn'); // Optional: Update styles to indicate selection
 });
 
+let selectedProjectIndex = 0; // For simplicity, adding todos to the first project
   
   const handleTodoSubmit = (event) => {
     event.preventDefault();
@@ -180,7 +188,6 @@ document.getElementById('high-btn').addEventListener('click', () => {
   console.log(title, description, dueDate, priority)
     const todo = TodoFactory(title, description, dueDate, priority);
     console.log("todo details", todo);
-    const selectedProjectIndex = 0; // For simplicity, adding todos to the first project
     addTodoToProject(selectedProjectIndex, todo);
   
     const modal = document.getElementById('todoModal');
