@@ -45,8 +45,7 @@ const deleteProject = (index) => {
     displayProjects(); // Re-display the projects
     //clear the todo list if the deleted project was selected
     document.getElementById('todo-list').innerHTML = ''; // Clear the todo list
-
-}
+    }
 }
   const displayProjects = () => {
     const projectList = document.getElementById('project-list');
@@ -61,6 +60,17 @@ const deleteProject = (index) => {
         const projectName = document.createElement('span');
         projectName.classList.add('project-name');
         projectName.textContent = project.name;
+
+        // Add click event listener to the project name
+        projectName.addEventListener('click', () => {
+          const allProjectNames = document.querySelectorAll('.project-name');
+          allProjectNames.forEach((name) => name.classList.remove('project-active'));
+
+        // Add active class to the clicked project name
+        projectName.classList.add('project-active');
+
+        displayTodos(index); // Show todos for the clicked project
+      });
 
         // Create the project buttons container
         const projectBtns = document.createElement('div');

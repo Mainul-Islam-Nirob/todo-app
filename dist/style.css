@@ -114,6 +114,10 @@ body {
     cursor:  pointer;
 }
 
+.project-active {
+    color: aqua;
+}
+
 .projectBtns {
     display: flex;
     gap: 4px;
