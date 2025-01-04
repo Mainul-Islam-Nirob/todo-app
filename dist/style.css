@@ -417,3 +417,22 @@ textarea {
     color: white;
     /* border: none; */
   }
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1; /* Ensure it is above other content */
+}
+
+.modal-inner {
+    position: relative;
+    z-index: 2; /* Ensure it is above the overlay */
+    background: white; /* Background for the modal content */
+    padding: 20px; /* Padding for the modal content */
+    border-radius: 5px; /* Rounded corners */
+    width: 300px; /* Width of the modal */
+    margin: 100px auto; /* Center the modal */
+}

@@ -65,21 +65,24 @@
 
     <!-- Add Project Modal -->
     <div class="modalContent" id="projectModal">
-      <div class="closeBtn" id="closeBtn">&times;</div>
-      <h1 class="modal-title title">New Project</h1>
-      <form action="#" class="modal-form" id="project-form">
+      <div class="modal-content">
+        <div class="closeBtn" id="closeBtn">&times;</div>
+        <h1 id="projectModalTitle" class="modal-title title">New Project</h1>
+        <form action="#" class="modal-form" id="project-form">
           <div class="projectName">
               <label for="projectName">Name:</label>
               <input type="text" required name="name" id="projectName" placeholder="Rock Paper Scissor">
           </div>
           <button class="btn" id="add-project-btn">Add</button>
-      </form>
-  </div>
+        </form>
+      </div>
+    </div>
 
     <!-- Add To Do Modal -->
-    <div class="modalContent" id="todoModal">
+     <div class="modalContent" id="todoModal">
+      <div class="modal-content">
         <div class="closeBtn" id="closeBtn">&times;</div>
-        <h1 class="modal-title title">New Task</h1>
+        <h1 class="modal-title title" id="todoModalTitle">New Task</h1>
         <form action="#" class="modal-form" id="todo-form">
           <div class="titleDate">
               <div class="title inputContainer">
@@ -107,8 +110,11 @@
            </div>
             <button class="btn" id="add-todo-btn">Add</button>
         </form>
-    </div>
-</div>
+      </div>
+    </div> 
+
+  
+  </div>
     
     <script src="main.js"></script>
   </body>

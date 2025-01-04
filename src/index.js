@@ -27,8 +27,27 @@ const TodoFactory = (title, description, dueDate, priority) => {
   };
   
   console.log(projects);
+//Editing a project
+let editingProjectIndex = null; // Variable to store the index of the project being edited
 
+const editProject = (index) => {
+    editingProjectIndex = index; // Store the index of the project being edited
+    const projectNameInput = document.getElementById("projectName");
+    projectNameInput.value = projects[index].name; // Pre-fill the input with the current project name
+    document.getElementById('projectModalTitle').textContent = 'Update Project'; // Set modal title
+    showModal('projectModal'); // Show the project modal
+};
 
+const deleteProject = (index) => {
+  if (confirm("Are you sure you want to delete this project and all its todos?")) {
+    projects.splice(index, 1); // Remove the project from the array
+    saveData(); // Save the updated data to localStorage
+    displayProjects(); // Re-display the projects
+    //clear the todo list if the deleted project was selected
+    document.getElementById('todo-list').innerHTML = ''; // Clear the todo list
+
+}
+}
   const displayProjects = () => {
     const projectList = document.getElementById('project-list');
     projectList.innerHTML = ''; // Clear previous projects
@@ -78,6 +97,26 @@ const TodoFactory = (title, description, dueDate, priority) => {
         projectList.appendChild(projectDiv);
     });
 };
+
+//update todo
+let editingTodoIndex = null; // Variable to store the index of the todo being edited
+
+const editTodo = (projectIndex, todoIndex) => {
+    editingTodoIndex = todoIndex; // Store the index of the todo being edited
+    const todo = projects[projectIndex].todos[todoIndex]; // Get the current todo
+
+    // Pre-fill the input fields with the current todo details
+    document.getElementById('title').value = todo.title;
+    document.getElementById('details').value = todo.description;
+    document.getElementById('date').value = todo.dueDate;
+    selectedPriority = todo.priority; // Set the selected priority
+    updateButtonStyles(selectedPriority === 'Low' ? 'low-btn' : 'high-btn', selectedPriority === 'High' ? 'low-btn' : 'high-btn'); // Update button styles
+
+        
+
+    document.getElementById('todoModalTitle').textContent = 'Update Task'; // Set modal title
+    showModal('todoModal'); // Show the todo modal
+};
   
   const displayTodos = (projectIndex) => {
     const todoList = document.getElementById('todo-list');
@@ -120,10 +159,7 @@ const TodoFactory = (title, description, dueDate, priority) => {
       const editBtn = document.createElement('span');
       editBtn.classList.add('edit-btn');
       editBtn.textContent = 'Edit';
-      editBtn.addEventListener('click', () => {
-        // Logic to edit the todo
-        console.log(`Editing todo at index ${index}`);
-      });
+      editBtn.onclick = () => editTodo(projectIndex, index);
       editContainer.appendChild(editBtn);
   
       const deleteBtn = document.createElement('span');
@@ -143,19 +179,48 @@ const TodoFactory = (title, description, dueDate, priority) => {
     });
   };
   
-  
-  const showModal = (modalId) => {
-    const modal = document.getElementById(modalId);
-    modal.style.display = 'block';
-  
-    const closeBtn = modal.querySelector('.closeBtn');
-    closeBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-  };
+  const resetModal = () => {
+    document.getElementById('todo-form').reset(); // Reset the todo form
+    document.getElementById('project-form').reset(); // Reset the project form
+    selectedPriority = ''; // Reset selected priority
+    editingTodoIndex = null; // Reset editing index for todos
+    editingProjectIndex = null; // Reset editing index for projects
+    document.getElementById('todoModalTitle').textContent = 'New Task'; // Reset modal title for todo
+    document.getElementById('projectModalTitle').textContent = 'New Project'; // Reset modal title for project
+};
 
 
-  let selectedPriority = ''; // Variable to store the selected priority
+
+
+const showModal = (modalId) => {
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'block';
+
+  const closeBtn = modal.querySelector('.closeBtn');
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    resetModal(); 
+  });
+
+  // Close modal when clicking outside of the modal content
+  window.addEventListener("click", closeModalOnOutsideClick(e, modalId));
+
+};
+
+// Close modal on outside click
+function closeModalOnOutsideClick(e, modalId) {
+  const modal = document.getElementById(modalId);
+  const modalContent = document.getElementById('.modal-content');
+
+ // Check if the click is outside the modal content
+ if (!modalContent.contains(e.target)) {
+  modal.style.display = 'none'; // Close modal
+  resetModal(); // Reset modal data when closed
+  window.removeEventListener("click", (e) => closeModalOnOutsideClick(e, modalId)); // Remove the event listener
+}
+};
+
+let selectedPriority = ''; // Variable to store the selected priority
 
 // Add event listeners to the buttons
 document.getElementById('low-btn').addEventListener('click', () => {
@@ -172,7 +237,6 @@ let selectedProjectIndex = 0; // For simplicity, adding todos to the first proje
   
   const handleTodoSubmit = (event) => {
     event.preventDefault();
-    console.log("clicked add todo")
     const title = document.getElementById('title').value;
     const description = document.getElementById('details').value;
     const dueDate = document.getElementById('date').value;
@@ -185,17 +249,23 @@ let selectedProjectIndex = 0; // For simplicity, adding todos to the first proje
 
     const priority = selectedPriority;
 
-  console.log(title, description, dueDate, priority)
-    const todo = TodoFactory(title, description, dueDate, priority);
-    console.log("todo details", todo);
-    addTodoToProject(selectedProjectIndex, todo);
-  
+    if (editingTodoIndex !== null) {
+      // If editing an existing todo
+      const projectIndex = selectedProjectIndex; // Get the current project index
+      projects[projectIndex].todos[editingTodoIndex] = TodoFactory(title, description, dueDate, priority); // Update the todo
+      displayTodos(projectIndex); 
+      editingTodoIndex = null; // Reset the editing index
+    } else {
+      // If creating a new todo
+      const todo = TodoFactory(title, description, dueDate, priority);
+      addTodoToProject(selectedProjectIndex, todo);
+    } 
+    saveData(); 
+
     const modal = document.getElementById('todoModal');
     modal.style.display = 'none';
-  
-    document.getElementById('todo-form').reset();
-    selectedPriority = '';
     updateButtonStyles(); // Reset button styles
+    resetModal(); 
   };
 
 
@@ -223,17 +293,20 @@ console.log("Other ID:", otherId);
 
   const handleProjectSubmit = (event) => {
     event.preventDefault();
-    console.log("clicked add")
-
     const name = document.getElementById("projectName").value; 
-    console.log("project name", name)
-    addProject(name);
 
+    if (editingProjectIndex !== null) {
+      projects[editingProjectIndex].name = name;
+      displayProjects(); 
+      editingProjectIndex = null;
+    } else {
+      addProject(name);
+    }
+
+    saveData();
     const modal = document.getElementById('projectModal');
     modal.style.display = 'none';
-  
-    document.getElementById('project-form').reset();
-
+    resetModal(); 
   }
   
   
@@ -242,27 +315,6 @@ console.log("Other ID:", otherId);
   document.getElementById('show-project-modal').addEventListener('click', () => showModal('projectModal'));
   document.getElementById('todo-form').addEventListener('submit', handleTodoSubmit);
   document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
-  
-  
-  // Load data from localStorage if available
-  // const loadData = () => {
-  //   const data = localStorage.getItem('todoAppData');
-  //   projects.length = 0; 
-  //   if (data) {
-  //     const parsedData = JSON.parse(data);
-  //     parsedData.forEach(project => {
-  //       const newProject = ProjectFactory(project.name);
-  //       project.todos.forEach(todo => {
-  //         newProject.todos.push(TodoFactory(todo.title, todo.description, todo.dueDate, todo.priority));
-  //       });
-  //       projects.push(newProject);
-  //     });
-  //     displayProjects();
-  //   } else {
-  //     // Create default project
-  //     addProject('Default Project');
-  //   }
-  // };
   
   const loadData = () => {
     const data = localStorage.getItem('todoAppData');
@@ -283,15 +335,23 @@ console.log("Other ID:", otherId);
             displayTodos(0); // Display todos for the first project
         }
     } else {
-        // Create default project
-        addProject('Default Project');
+        // Create a default project if no data exists
+        const defaultProject = addProject('Default List');
+        
+        // Save the new default project to localStorage
+        saveData();
+
+        // Display projects and todos
+        displayProjects();
+        displayTodos(projects.indexOf(defaultProject));
     }
 };
   
-  // loadData();
-  // Save data to localStorage
-  const saveData = () => {
+const saveData = () => {
     localStorage.setItem('todoAppData', JSON.stringify(projects));
-  };
+};
   
-document.addEventListener('DOMContentLoaded', loadData);
+document.addEventListener('DOMContentLoaded', () => {
+  loadData(); // Load initial data
+
+});
