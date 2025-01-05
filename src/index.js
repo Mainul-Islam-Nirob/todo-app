@@ -162,6 +162,12 @@ const editTodo = (projectIndex, todoIndex) => {
       dueDateElement.textContent = `Due: ${todo.dueDate}`;
       todoItem.appendChild(dueDateElement);
   
+      // Add the project name
+      const projectNameElement = document.createElement('div');
+      projectNameElement.classList.add('projectName');
+      projectNameElement.textContent = `Project: ${projects[projectIndex].name}`;
+      todoItem.appendChild(projectNameElement);
+
       // Add edit buttons
       const editContainer = document.createElement('div');
       editContainer.classList.add('edit-item');
@@ -319,13 +325,49 @@ console.log("Other ID:", otherId);
     resetModal(); 
   }
   
-  
+  //important todos
+  const displayHighPriorityTodos = () => {
+    // Clear the todo display area
+    const todoContainer = document.getElementById('todoContainer');
+    todoContainer.innerHTML = '';
+
+    // Collect all high-priority todos
+    const highPriorityTodos = projects.flatMap((project, projectIndex) => 
+        project.todos
+            .filter(todo => todo.priority === 'High')
+            .map(todo => ({ ...todo, projectIndex }))
+    );
+
+    // Display a message if no high-priority todos exist
+    if (highPriorityTodos.length === 0) {
+        todoContainer.innerHTML = '<p>No high-priority todos found.</p>';
+        return;
+    }
+
+    // Render each high-priority todo
+    highPriorityTodos.forEach(todo => {
+        const todoElement = document.createElement('div');
+        todoElement.classList.add('todo-item');
+        todoElement.innerHTML = `
+            <h3>${todo.title}</h3>
+            <p>${todo.description}</p>
+            <p>Due: ${todo.dueDate}</p>
+            <p>Project: ${projects[todo.projectIndex].name}</p>
+        `;
+        todoContainer.appendChild(todoElement);
+    });
+};
+
+
   // Event listeners
   document.getElementById('show-todo-modal').addEventListener('click', () => showModal('todoModal'));
   document.getElementById('show-project-modal').addEventListener('click', () => showModal('projectModal'));
   document.getElementById('todo-form').addEventListener('submit', handleTodoSubmit);
   document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
-  
+  document.getElementById('importantNav').addEventListener('click', () => {
+    displayHighPriorityTodos();
+});
+
   const loadData = () => {
     const data = localStorage.getItem('todoAppData');
     // projects.length = 0; 

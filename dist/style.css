@@ -115,7 +115,7 @@ body {
 }
 
 .project-active {
-    color: aqua;
+    color: aqua/;
 }
 
 .projectBtns {
@@ -205,12 +205,13 @@ body {
 .t-priority {
     font-size: 1.6rem;
     font-style: italic;
+    margin-top: 2rem;
+
 }
 
 .t-dueDate {
     font-size: 1.6rem;
     font-style: italic;
-    margin-top: 2rem;
 
 }
 
