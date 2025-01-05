@@ -328,8 +328,8 @@ console.log("Other ID:", otherId);
   //important todos
   const displayHighPriorityTodos = () => {
     // Clear the todo display area
-    const todoContainer = document.getElementById('todoContainer');
-    todoContainer.innerHTML = '';
+    const todoContainer = document.getElementById('todo-list'); // Ensure this matches your HTML
+    todoContainer.innerHTML = ''; // Clear previous todos
 
     // Collect all high-priority todos
     const highPriorityTodos = projects.flatMap((project, projectIndex) => 
@@ -347,26 +347,26 @@ console.log("Other ID:", otherId);
     // Render each high-priority todo
     highPriorityTodos.forEach(todo => {
         const todoElement = document.createElement('div');
-        todoElement.classList.add('todo-item');
+        todoElement.classList.add('todoItem');
         todoElement.innerHTML = `
-            <h3>${todo.title}</h3>
-            <p>${todo.description}</p>
-            <p>Due: ${todo.dueDate}</p>
-            <p>Project: ${projects[todo.projectIndex].name}</p>
-        `;
+          <div class="t-title">${todo.title}</div>
+          <div class="t-details">${todo.description}</div>
+          <div class="t-priority">Priority: ${todo.priority}</div>
+          <div class="t-dueDate">Due: ${todo.dueDate}</div>
+          <div class="projectName">Project: ${projects[todo.projectIndex].name}</div>
+         
+      `;
         todoContainer.appendChild(todoElement);
     });
 };
-
 
   // Event listeners
   document.getElementById('show-todo-modal').addEventListener('click', () => showModal('todoModal'));
   document.getElementById('show-project-modal').addEventListener('click', () => showModal('projectModal'));
   document.getElementById('todo-form').addEventListener('submit', handleTodoSubmit);
   document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
-  document.getElementById('importantNav').addEventListener('click', () => {
-    displayHighPriorityTodos();
-});
+  document.getElementById('importantNav').addEventListener('click', displayHighPriorityTodos);
+
 
   const loadData = () => {
     const data = localStorage.getItem('todoAppData');
