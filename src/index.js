@@ -360,13 +360,54 @@ console.log("Other ID:", otherId);
     });
 };
 
+//show all todo 
+const displayAllTodos = () => {
+  const todoList = document.getElementById('todo-list');
+  todoList.innerHTML = ''; // Clear previous todos
+
+  // Collect all todos from all projects
+  const allTodos = projects.flatMap((project, projectIndex) =>
+      project.todos.map(todo => ({ ...todo, projectIndex })) // Include projectIndex
+  );
+
+  // Check if there are any todos
+  if (allTodos.length === 0) {
+      const noTodosMessage = document.createElement('p');
+      noTodosMessage.textContent = 'No todos found.';
+      todoList.appendChild(noTodosMessage);
+      return;
+  }
+
+  // Render each todo
+  allTodos.forEach((todo, index) => {
+      const todoItem = document.createElement('div');
+      todoItem.classList.add('todoItem'); // Apply your custom CSS class
+
+      // Construct the inner HTML using template literals
+      todoItem.innerHTML = `
+          <div class="t-title">${todo.title}</div>
+          <div class="t-description">${todo.description}</div>
+          <div class="t-priority">Priority: ${todo.priority}</div>
+          <div class="t-dueDate">Due: ${todo.dueDate}</div>
+          <div class="projectName">Project: ${projects[todo.projectIndex].name}</div>
+          <div class="edit-item">
+              <span class="edit-btn" onclick="editTodo(${todo.projectIndex}, ${index})">Edit</span>
+              <span class="edit-btn" onclick="deleteTodo(${todo.projectIndex}, ${index})">Delete</span>
+          </div>
+      `;
+
+      // Append the todoItem to the todoList
+      todoList.appendChild(todoItem);
+  });
+};
+
   // Event listeners
   document.getElementById('show-todo-modal').addEventListener('click', () => showModal('todoModal'));
   document.getElementById('show-project-modal').addEventListener('click', () => showModal('projectModal'));
   document.getElementById('todo-form').addEventListener('submit', handleTodoSubmit);
   document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
   document.getElementById('importantNav').addEventListener('click', displayHighPriorityTodos);
-
+  document.getElementById('show-all-todos').addEventListener('click', displayAllTodos);
 
   const loadData = () => {
     const data = localStorage.getItem('todoAppData');
