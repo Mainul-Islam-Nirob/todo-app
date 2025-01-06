@@ -134,68 +134,6 @@ const deleteTodo = (projectIndex, index) => {
   saveData(); // Save the updated data to localStorage
 };
 
-  // const displayTodos = (projectIndex) => {
-  //   const todoList = document.getElementById('todo-list');
-  //   todoList.innerHTML = ''; // Clear previous todos
-  //   console.log("project index", projectIndex)
-  //   projects[projectIndex].todos.forEach((todo, index) => {
-  //     console.log("todo from loop", todo, index)
-  //     // Create a container for the todo item
-  //     const todoItem = document.createElement('div');
-  //     todoItem.classList.add('todoItem'); // Apply your custom CSS class
-  
-  //     // Add the title
-  //     const titleElement = document.createElement('div');
-  //     titleElement.classList.add('t-title');
-  //     titleElement.textContent = todo.title;
-  //     todoItem.appendChild(titleElement);
-  
-  //     // Add the description
-  //     const descriptionElement = document.createElement('div');
-  //     descriptionElement.classList.add('t-description');
-  //     descriptionElement.textContent = todo.description;
-  //     todoItem.appendChild(descriptionElement);
-  
-  //     // Add the priority
-  //     const priorityElement = document.createElement('div');
-  //     priorityElement.classList.add('t-priority');
-  //     priorityElement.textContent = `Priority: ${todo.priority}`;
-  //     todoItem.appendChild(priorityElement);
-  
-  //     // Add the due date
-  //     const dueDateElement = document.createElement('div');
-  //     dueDateElement.classList.add('t-dueDate');
-  //     dueDateElement.textContent = `Due: ${todo.dueDate}`;
-  //     todoItem.appendChild(dueDateElement);
-  
-  //     // Add the project name
-  //     const projectNameElement = document.createElement('div');
-  //     projectNameElement.classList.add('projectName');
-  //     projectNameElement.textContent = `Project: ${projects[projectIndex].name}`;
-  //     todoItem.appendChild(projectNameElement);
-
-  //     // Add edit buttons
-  //     const editContainer = document.createElement('div');
-  //     editContainer.classList.add('edit-item');
-  
-  //     const editBtn = document.createElement('span');
-  //     editBtn.classList.add('edit-btn');
-  //     editBtn.textContent = 'Edit';
-  //     editBtn.onclick = () => editTodo(projectIndex, index);
-  //     editContainer.appendChild(editBtn);
-  
-  //     const deleteBtn = document.createElement('span');
-  //     deleteBtn.classList.add('edit-btn');
-  //     deleteBtn.textContent = 'Delete';
-  //     deleteBtn.onclick = () => deleteTodo(projectIndex, index);
-  //     editContainer.appendChild(deleteBtn);
-  
-  //     todoItem.appendChild(editContainer);
-  
-  //     // Append the todoItem to the todoList
-  //     todoList.appendChild(todoItem);
-  //   });
-  // };
   const displayTodos = (projectIndex = null, filter = null) => {
     const todoList = document.getElementById('todo-list');
     todoList.innerHTML = ''; // Clear previous todos
@@ -203,18 +141,21 @@ const deleteTodo = (projectIndex, index) => {
     let todosToDisplay = [];
 
     if (filter === 'all') {
-        // Display all todos across all projects
-        todosToDisplay = projects.flatMap(project => project.todos);
+         // Display all todos across all projects
+         todosToDisplay = projects.flatMap(project => 
+          project.todos.map(todo => ({ ...todo, projectName: project.name }))
+
+      );
     } else if (filter === 'important') {
         // Display only high-priority todos across all projects
         todosToDisplay = projects.flatMap(project => 
-            project.todos.filter(todo => todo.priority === 'High')
-        );
+          project.todos.filter(todo => todo.priority === 'High').map(todo => ({ ...todo, projectName: project.name }))
+      );
     } else if (projectIndex !== null) {
-        // Display todos for a specific project
-        if (projects[projectIndex]) {
-            todosToDisplay = projects[projectIndex].todos;
-        }
+      // Display todos for a specific project
+      if (projects[projectIndex]) {
+        todosToDisplay = projects[projectIndex].todos.map(todo => ({ ...todo, projectName: projects[projectIndex].name }));
+      }
     }
 
     if (todosToDisplay.length === 0) {
@@ -251,13 +192,11 @@ const deleteTodo = (projectIndex, index) => {
         dueDateElement.textContent = `Due: ${todo.dueDate}`;
         todoItem.appendChild(dueDateElement);
 
-        // Add the project name if applicable
-        if (projectIndex !== null) {
-            const projectNameElement = document.createElement('div');
-            projectNameElement.classList.add('projectName');
-            projectNameElement.textContent = `Project: ${projects[projectIndex].name}`;
-            todoItem.appendChild(projectNameElement);
-        }
+        // Add the project name
+        const projectNameElement = document.createElement('div');
+        projectNameElement.classList.add('projectName');
+        projectNameElement.textContent = `Project: ${todo.projectName}`;
+        todoItem.appendChild(projectNameElement);
 
         // Add edit buttons
         const editContainer = document.createElement('div');
@@ -490,7 +429,7 @@ const displayAllTodos = () => {
 };
 
   // Event listeners
-  document.getElementById('show-todo-modal').addEventListener('click', () => showModal('todoModal'));
+  // document.getElementById('show-todo-modal').addEventListener('click', () => showModal('todoModal'));
   document.getElementById('show-project-modal').addEventListener('click', () => showModal('projectModal'));
   document.getElementById('todo-form').addEventListener('submit', handleTodoSubmit);
   document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
