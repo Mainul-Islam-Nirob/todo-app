@@ -118,10 +118,11 @@ const editTodo = (projectIndex, todoIndex) => {
     document.getElementById('details').value = todo.description;
     document.getElementById('date').value = todo.dueDate;
     selectedPriority = todo.priority; // Set the selected priority
+
+    selectedProjectIndex = projectIndex; 
+    
     updateButtonStyles(selectedPriority === 'Low' ? 'low-btn' : 'high-btn', selectedPriority === 'High' ? 'low-btn' : 'high-btn'); // Update button styles
-
-        
-
+      
     document.getElementById('todoModalTitle').textContent = 'Update Task'; // Set modal title
     showModal('todoModal'); // Show the todo modal
 };
@@ -279,8 +280,8 @@ document.getElementById('high-btn').addEventListener('click', () => {
   updateButtonStyles('high-btn', 'low-btn'); // Optional: Update styles to indicate selection
 });
 
-let selectedProjectIndex = 0; // For simplicity, adding todos to the first project
-  
+let selectedProjectIndex = null; 
+
   const handleTodoSubmit = (event) => {
     event.preventDefault();
     const title = document.getElementById('title').value;
