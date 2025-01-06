@@ -24,12 +24,13 @@ body {
     font-family: "Noto Serif", serif;
     font-size: 1.6rem;
     color: var(--font-color-dark);
+    background-color: var(--light);
 }
 
 #content {
     background-color: var(--light);
     width: 100vw;
-    height: 100vh;
+    height: 100%;
 
 }
 
@@ -44,6 +45,11 @@ body {
     color: var(--light);
     font-size: 4rem;
     font-weight: bold;
+    position: fixed; /* Make the header fixed */
+    top: 0; /* Position it at the top */
+    left: 0; /* Ensure it starts from the left */
+    right: 0; /* Ensure it stretches to the right */
+    z-index: 1000; /* Optional: Ensure it stays above other content */
 }
 /* 
 #header:hover {
@@ -52,17 +58,23 @@ body {
 
 .body {
     display: flex;
+    margin-top: 6rem;
     
 }
 
-#sidebar{
-    min-width: 32rem;
+
+#sidebar {
+    position: fixed; /* Make the sidebar fixed */
+    top: 6rem; /* Position it below the header */
+    left: 0; /* Align it to the left */
+    max-width: 32rem; /* Minimum width of the sidebar */
     background-color: var(--blue);
-    height: calc(100vh - 6rem);
-    padding-bottom: 5rem;
+    height: calc(100vh - 6rem); /* Full height minus the header height */
+    padding: 0 2rem 5rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    z-index: 1000; /* Optional: Ensure it stays above other content */
 }
 
 #nav-items {
@@ -106,6 +118,8 @@ body {
     font-size: 2rem;
     padding-left: 2rem;
     padding-right: 2rem;
+    max-height: 42rem;
+    overflow: scroll;
 }
 
 .project {
@@ -177,7 +191,13 @@ body {
 }
 
 #main {
-     
+    margin-left: 32rem;
+
+}
+
+.no-todo {
+    color: var(--maroon);
+    font-size: 3rem;
 }
 .todoItems {
     display: flex;
@@ -193,6 +213,7 @@ body {
     border-radius: 1rem;
     margin: 1rem;
     padding: 2rem;
+    
 }
 
 .index {

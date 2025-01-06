@@ -41,8 +41,11 @@ const deleteProject = (index) => {
     projects.splice(index, 1); // Remove the project from the array
     saveData(); // Save the updated data to localStorage
     displayProjects(); // Re-display the projects
+    displayTodos(null, 'all');
+    activateNavItem('show-all-todos'); // Activate the "To Do" nav item
+
     //clear the todo list if the deleted project was selected
-    document.getElementById('todo-list').innerHTML = ''; // Clear the todo list
+    // document.getElementById('todo-list').innerHTML = ''; // Clear the todo list
     }
 }
 const displayProjects = () => {
@@ -164,7 +167,7 @@ const deleteTodo = (projectIndex, index) => {
     }
 
     if (todosToDisplay.length === 0) {
-        todoList.innerHTML = '<p>No todos found.</p>';
+        todoList.innerHTML = "<p class='no-todo'>No todos found :(</p>";
         return;
     }
 
