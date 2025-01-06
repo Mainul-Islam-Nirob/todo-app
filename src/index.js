@@ -20,13 +20,11 @@ const TodoFactory = (title, description, dueDate, priority) => {
   };
   
   const addTodoToProject = (projectIndex, todo) => {
-    console.log("from add to do project", todo)
     projects[projectIndex].todos.push(todo);
     saveData(); 
     displayTodos(projectIndex);
   };
   
-  console.log(projects);
 //Editing a project
 let editingProjectIndex = null; // Variable to store the index of the project being edited
 
@@ -47,7 +45,7 @@ const deleteProject = (index) => {
     document.getElementById('todo-list').innerHTML = ''; // Clear the todo list
     }
 }
-  const displayProjects = () => {
+const displayProjects = () => {
     const projectList = document.getElementById('project-list');
     projectList.innerHTML = ''; // Clear previous projects
 
@@ -228,6 +226,11 @@ const deleteTodo = (projectIndex, index) => {
     selectedPriority = ''; // Reset selected priority
     editingTodoIndex = null; // Reset editing index for todos
     editingProjectIndex = null; // Reset editing index for projects
+     // Reset button styles for priority selection
+     const priorityButtons = document.querySelectorAll('.priority-btn .btn'); // Select all buttons within the priority-btn div
+     priorityButtons.forEach(button => {
+         button.classList.remove('selected'); // Remove the selected class from all buttons
+     });
     document.getElementById('todoModalTitle').textContent = 'New Task'; // Reset modal title for todo
     document.getElementById('projectModalTitle').textContent = 'New Project'; // Reset modal title for project
 };
@@ -316,7 +319,7 @@ let selectedProjectIndex = 0; // For simplicity, adding todos to the first proje
   // Update button styles to indicate selection
 function updateButtonStyles(selectedId, otherId) {
   console.log("Selected ID:", selectedId);
-console.log("Other ID:", otherId);
+  console.log("Other ID:", otherId);
 
   const selectedButton = document.getElementById(selectedId);
   const otherButton = document.getElementById(otherId);
@@ -451,21 +454,7 @@ const displayAllTodos = () => {
         displayProjects();
         displayTodos(null, 'all');
         
-        // Display todos for the first project if it exists
-        if (projects.length > 0) {
-            displayTodos(0); // Display todos for the first project
-        }
-    } else {
-        // Create a default project if no data exists
-        const defaultProject = addProject('Default List');
-        
-        // Save the new default project to localStorage
-        saveData();
-
-        // Display projects and todos
-        displayProjects();
-        displayTodos(projects.indexOf(defaultProject));
-    }
+    } 
 };
   
 const saveData = () => {
