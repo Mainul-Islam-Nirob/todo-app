@@ -84,6 +84,15 @@ body {
 
 }
 
+#project-nav:hover {
+    cursor: default;
+}
+
+.nav-active {
+    color: var(--maroon);
+
+}
+
 .nav-item:hover {
     color: var(--maroon);
     border-bottom: .5px solid var(--light);
@@ -115,7 +124,7 @@ body {
 }
 
 .project-active {
-    color: aqua/;
+    color: aqua;
 }
 
 .projectBtns {

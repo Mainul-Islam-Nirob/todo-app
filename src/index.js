@@ -62,6 +62,12 @@ const displayProjects = () => {
         // Add click event listener to the project name
         projectName.addEventListener('click', () => {
           const allProjectNames = document.querySelectorAll('.project-name');
+          const navItems = document.querySelectorAll('.nav-link'); // Select all nav items
+
+          // Remove active class from all nav items
+          navItems.forEach(item => {
+              item.classList.remove('nav-active'); // Remove active class from all nav items
+          });
           allProjectNames.forEach((name) => name.classList.remove('project-active'));
 
         // Add active class to the clicked project name
@@ -432,13 +438,48 @@ const displayAllTodos = () => {
   });
 };
 
+// Function to activate the clicked navigation item
+const activateNavItem = (activeId) => {
+  const navItems = document.querySelectorAll('.nav-link'); // Select all nav items
+  const projectNames = document.querySelectorAll('.project-name');
+
+  // Remove active class from all project names
+  projectNames.forEach(item => {
+    item.classList.remove('project-active'); // Remove active class from all nav items
+});
+
+
+  // Remove active class from all nav items
+  navItems.forEach(item => {
+      item.classList.remove('nav-active'); // Remove active class from all nav items
+  });
+
+  // Add active class to the clicked nav item
+  const activeNavItem = document.getElementById(activeId);
+  if (activeNavItem) {
+      activeNavItem.classList.add('nav-active'); // Add active class to the clicked item
+  }
+};
+
   // Event listeners
   // document.getElementById('show-todo-modal').addEventListener('click', () => showModal('todoModal'));
   document.getElementById('show-project-modal').addEventListener('click', () => showModal('projectModal'));
   document.getElementById('todo-form').addEventListener('submit', handleTodoSubmit);
   document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
-  document.getElementById('importantNav').addEventListener('click', () => displayTodos(null, "important"));
-  document.getElementById('show-all-todos').addEventListener('click', () => displayTodos(null, "all"));
+  // document.getElementById('importantNav').addEventListener('click', () => displayTodos(null, "important"));
+  // document.getElementById('show-all-todos').addEventListener('click', () => displayTodos(null, "all"));
+
+  // Event listener for showing all todos
+  document.getElementById('show-all-todos').addEventListener('click', () => {
+    displayTodos(null, "all"); // Call the function to display all todos
+    activateNavItem('show-all-todos'); // Activate the "To Do" nav item
+  });
+
+  // Event listener for showing important todos
+  document.getElementById('importantNav').addEventListener('click', () => {
+    displayTodos(null, "important"); // Call the function to display important todos
+    activateNavItem('importantNav'); // Activate the "Important" nav item
+  });
 
   const loadData = () => {
     const data = localStorage.getItem('todoAppData');
@@ -454,6 +495,8 @@ const displayAllTodos = () => {
         });
         displayProjects();
         displayTodos(null, 'all');
+        activateNavItem('show-all-todos'); // Activate the "To Do" nav item
+
         
     } 
 };
