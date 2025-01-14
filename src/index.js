@@ -25,6 +25,7 @@ const TodoFactory = (title, description, dueDate, priority) => {
     displayTodos(projectIndex);
   };
   
+
 //Editing a project
 let editingProjectIndex = null; // Variable to store the index of the project being edited
 
@@ -43,11 +44,9 @@ const deleteProject = (index) => {
     displayProjects(); // Re-display the projects
     displayTodos(null, 'all');
     activateNavItem('show-all-todos'); // Activate the "To Do" nav item
-
-    //clear the todo list if the deleted project was selected
-    // document.getElementById('todo-list').innerHTML = ''; // Clear the todo list
     }
 }
+
 const displayProjects = () => {
     const projectList = document.getElementById('project-list');
     projectList.innerHTML = ''; // Clear previous projects
@@ -119,6 +118,7 @@ const displayProjects = () => {
 let editingTodoIndex = null; // Variable to store the index of the todo being edited
 
 const editTodo = (projectIndex, todoIndex) => {
+
     editingTodoIndex = todoIndex; // Store the index of the todo being edited
     const todo = projects[projectIndex].todos[todoIndex]; // Get the current todo
 
@@ -137,8 +137,9 @@ const editTodo = (projectIndex, todoIndex) => {
 };
   
 const deleteTodo = (projectIndex, index) => {
+
   projects[projectIndex].todos.splice(index, 1); // Remove the todo
-  displayTodos(projectIndex); // Re-render the todos
+  displayTodos(null, "all"); // Re-render the todos
   saveData(); // Save the updated data to localStorage
 };
 
@@ -148,29 +149,44 @@ const deleteTodo = (projectIndex, index) => {
 
     let todosToDisplay = [];
 
-    if (filter === 'all') {
-         // Display all todos across all projects
-         todosToDisplay = projects.flatMap(project => 
-          project.todos.map(todo => ({ ...todo, projectName: project.name }))
 
-      );
-    } else if (filter === 'important') {
-        // Display only high-priority todos across all projects
-        todosToDisplay = projects.flatMap(project => 
-          project.todos.filter(todo => todo.priority === 'High').map(todo => ({ ...todo, projectName: project.name }))
-      );
-    } else if (projectIndex !== null) {
-      // Display todos for a specific project
-      if (projects[projectIndex]) {
-        todosToDisplay = projects[projectIndex].todos.map(todo => ({ ...todo, projectName: projects[projectIndex].name }));
-      }
+  if (filter === 'all') {
+    todosToDisplay = projects.flatMap((project, projectIndex) =>
+        project.todos.map((todo, todoIndex) => ({
+            ...todo,
+            projectName: project.name,
+            projectIndex,
+            todoIndex, // Add the index of the todo within the specific project
+        }))
+    );
+} else if (filter === 'important') {
+    todosToDisplay = projects.flatMap((project, projectIndex) =>
+        project.todos
+            .filter(todo => todo.priority === 'High')
+            .map((todo, todoIndex) => ({
+                ...todo,
+                projectName: project.name,
+                projectIndex,
+                todoIndex, // Add the index of the todo within the specific project
+            }))
+    );
+} else if (projectIndex !== null) {
+    // Display todos for a specific project
+    if (projects[projectIndex]) {
+        todosToDisplay = projects[projectIndex].todos.map((todo, todoIndex) => ({
+            ...todo,
+            projectName: projects[projectIndex].name,
+            projectIndex,
+            todoIndex, // Add the index of the todo within the specific project
+        }));
     }
+}
 
     if (todosToDisplay.length === 0) {
         todoList.innerHTML = "<p class='no-todo'>No todos found :(</p>";
         return;
     }
-
+    
     todosToDisplay.forEach((todo, index) => {
         // Create a container for the todo item
         const todoItem = document.createElement('div');
@@ -213,13 +229,13 @@ const deleteTodo = (projectIndex, index) => {
         const editBtn = document.createElement('span');
         editBtn.classList.add('edit-btn');
         editBtn.textContent = 'Edit';
-        editBtn.onclick = () => editTodo(projectIndex !== null ? projectIndex : 0, index);
+        editBtn.onclick = () => editTodo(todo.projectIndex, todo.todoIndex); 
         editContainer.appendChild(editBtn);
 
         const deleteBtn = document.createElement('span');
         deleteBtn.classList.add('edit-btn');
         deleteBtn.textContent = 'Delete';
-        deleteBtn.onclick = () => deleteTodo(projectIndex !== null ? projectIndex : 0, index);
+        deleteBtn.onclick = () => deleteTodo(todo.projectIndex, todo.todoIndex); 
         editContainer.appendChild(deleteBtn);
 
         todoItem.appendChild(editContainer);
@@ -259,22 +275,22 @@ const showModal = (modalId) => {
   });
 
   // Close modal when clicking outside of the modal content
-  window.addEventListener("click", closeModalOnOutsideClick(e, modalId));
+  // window.addEventListener("click", closeModalOnOutsideClick(e, modalId));
 
 };
 
 // Close modal on outside click
-function closeModalOnOutsideClick(e, modalId) {
-  const modal = document.getElementById(modalId);
-  const modalContent = document.getElementById('.modal-content');
+// function closeModalOnOutsideClick(e, modalId) {
+//   const modal = document.getElementById(modalId);
+//   const modalContent = document.getElementById('.modal-content');
 
- // Check if the click is outside the modal content
- if (!modalContent.contains(e.target)) {
-  modal.style.display = 'none'; // Close modal
-  resetModal(); // Reset modal data when closed
-  window.removeEventListener("click", (e) => closeModalOnOutsideClick(e, modalId)); // Remove the event listener
-}
-};
+//  // Check if the click is outside the modal content
+//  if (!modalContent.contains(e.target)) {
+//   modal.style.display = 'none'; // Close modal
+//   resetModal(); // Reset modal data when closed
+//   window.removeEventListener("click", (e) => closeModalOnOutsideClick(e, modalId)); // Remove the event listener
+// }
+// };
 
 let selectedPriority = ''; // Variable to store the selected priority
 
@@ -308,9 +324,13 @@ let selectedProjectIndex = null;
     if (editingTodoIndex !== null) {
       // If editing an existing todo
       const projectIndex = selectedProjectIndex; // Get the current project index
-      projects[projectIndex].todos[editingTodoIndex] = TodoFactory(title, description, dueDate, priority); // Update the todo
-      displayTodos(projectIndex); 
-      editingTodoIndex = null; // Reset the editing index
+      if (projects[projectIndex]) { // Check if the project exists
+          projects[projectIndex].todos[editingTodoIndex] = TodoFactory(title, description, dueDate, priority); // Update the todo
+          displayTodos(projectIndex); 
+          editingTodoIndex = null; // Reset the editing index
+      } else {
+          alert('Error: Project not found.'); // Handle error if project is not found
+      }
     } else {
       // If creating a new todo
       const todo = TodoFactory(title, description, dueDate, priority);
@@ -328,22 +348,15 @@ let selectedProjectIndex = null;
   
   // Update button styles to indicate selection
 function updateButtonStyles(selectedId, otherId) {
-  console.log("Selected ID:", selectedId);
-  console.log("Other ID:", otherId);
-
   const selectedButton = document.getElementById(selectedId);
   const otherButton = document.getElementById(otherId);
 
   if (selectedButton) {
     selectedButton.classList.add('selected'); // Add selected style
-    console.log(selectedButton)
-    console.log("change selected button style")
   }
 
   if (otherButton) {
     otherButton.classList.remove('selected'); // Remove selected style
-    console.log("change other button style")
-
   }
 }
 
@@ -365,81 +378,6 @@ function updateButtonStyles(selectedId, otherId) {
     resetModal(); 
   }
   
-  //important todos
-  const displayHighPriorityTodos = () => {
-    // Clear the todo display area
-    const todoContainer = document.getElementById('todo-list'); // Ensure this matches your HTML
-    todoContainer.innerHTML = ''; // Clear previous todos
-
-    // Collect all high-priority todos
-    const highPriorityTodos = projects.flatMap((project, projectIndex) => 
-        project.todos
-            .filter(todo => todo.priority === 'High')
-            .map(todo => ({ ...todo, projectIndex }))
-    );
-
-    // Display a message if no high-priority todos exist
-    if (highPriorityTodos.length === 0) {
-        todoContainer.innerHTML = '<p>No high-priority todos found.</p>';
-        return;
-    }
-
-    // Render each high-priority todo
-    highPriorityTodos.forEach(todo => {
-        const todoElement = document.createElement('div');
-        todoElement.classList.add('todoItem');
-        todoElement.innerHTML = `
-          <div class="t-title">${todo.title}</div>
-          <div class="t-details">${todo.description}</div>
-          <div class="t-priority">Priority: ${todo.priority}</div>
-          <div class="t-dueDate">Due: ${todo.dueDate}</div>
-          <div class="projectName">Project: ${projects[todo.projectIndex].name}</div>
-         
-      `;
-        todoContainer.appendChild(todoElement);
-    });
-};
-
-//show all todo 
-const displayAllTodos = () => {
-  const todoList = document.getElementById('todo-list');
-  todoList.innerHTML = ''; // Clear previous todos
-
-  // Collect all todos from all projects
-  const allTodos = projects.flatMap((project, projectIndex) =>
-      project.todos.map(todo => ({ ...todo, projectIndex })) // Include projectIndex
-  );
-
-  // Check if there are any todos
-  if (allTodos.length === 0) {
-      const noTodosMessage = document.createElement('p');
-      noTodosMessage.textContent = 'No todos found.';
-      todoList.appendChild(noTodosMessage);
-      return;
-  }
-
-  // Render each todo
-  allTodos.forEach((todo, index) => {
-      const todoItem = document.createElement('div');
-      todoItem.classList.add('todoItem'); // Apply your custom CSS class
-
-      // Construct the inner HTML using template literals
-      todoItem.innerHTML = `
-          <div class="t-title">${todo.title}</div>
-          <div class="t-description">${todo.description}</div>
-          <div class="t-priority">Priority: ${todo.priority}</div>
-          <div class="t-dueDate">Due: ${todo.dueDate}</div>
-          <div class="projectName">Project: ${projects[todo.projectIndex].name}</div>
-          <div class="edit-item">
-              <span class="edit-btn" onclick="editTodo(${todo.projectIndex}, ${index})">Edit</span>
-              <span class="edit-btn" onclick="deleteTodo(${todo.projectIndex}, ${index})">Delete</span>
-          </div>
-      `;
-
-      // Append the todoItem to the todoList
-      todoList.appendChild(todoItem);
-  });
-};
 
 // Function to activate the clicked navigation item
 const activateNavItem = (activeId) => {
