@@ -392,12 +392,9 @@ const activateNavItem = (activeId) => {
 };
 
   // Event listeners
-  // document.getElementById('show-todo-modal').addEventListener('click', () => showModal('todoModal'));
   document.getElementById('show-project-modal').addEventListener('click', () => showModal('projectModal'));
   document.getElementById('todo-form').addEventListener('submit', handleTodoSubmit);
   document.getElementById('project-form').addEventListener('submit', handleProjectSubmit);
-  // document.getElementById('importantNav').addEventListener('click', () => displayTodos(null, "important"));
-  // document.getElementById('show-all-todos').addEventListener('click', () => displayTodos(null, "all"));
 
   // Event listener for showing all todos
   document.getElementById('show-all-todos').addEventListener('click', () => {
@@ -426,11 +423,10 @@ const activateNavItem = (activeId) => {
         displayProjects();
         displayTodos(null, 'all');
         activateNavItem('show-all-todos'); // Activate the "To Do" nav item
-
-        
+       
     } 
 };
-  
+
 const saveData = () => {
     localStorage.setItem('todoAppData', JSON.stringify(projects));
 };
