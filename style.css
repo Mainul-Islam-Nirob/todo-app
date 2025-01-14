@@ -67,7 +67,7 @@ body {
     position: fixed; /* Make the sidebar fixed */
     top: 6rem; /* Position it below the header */
     left: 0; /* Align it to the left */
-    max-width: 32rem; /* Minimum width of the sidebar */
+    width: 30rem; /* Minimum width of the sidebar */
     background-color: var(--blue);
     height: calc(100vh - 6rem); /* Full height minus the header height */
     padding: 0 2rem 5rem 2rem;
@@ -191,7 +191,7 @@ body {
 }
 
 #main {
-    margin-left: 32rem;
+    margin-left: 30rem;
 
 }
 
