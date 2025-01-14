@@ -425,27 +425,12 @@ textarea {
     border: 3px solid rgb(2, 73, 2);
 }
 
-/* .low-btn:hover {
-    background-color: rgb(2, 73, 2);
-    color: var(--light);
-    border: 3px solid var(--light);
-
-    
-} */
-
 .high-btn {
     background-color: var(--light);
     color: rgb(111, 4, 4);
     border: 3px solid rgb(111, 4, 4);
     border: 3px solid rgb(111, 4, 4);
-
 }
-/* 
-.high-btn:hover {
-    background-color: rgb(111, 4, 4);
-    color: var(--light);
-    border: 3px solid var(--light);
-} */
 
 .selected {
     background-color: var(--blue);

@@ -15,7 +15,19 @@ This is a simple To-Do application built with HTML, CSS, and JavaScript. The app
 - **Project Management**: Create new projects to organize tasks.
 - **Modal Interaction**: Add tasks and projects through modals that open when a user clicks on the "+" button.
 
+## Future Enhancements
 
+The following features are planned for future updates:
+
+1. **Refactor Code**: Improve code readability and maintainability by organizing and optimizing JavaScript logic.
+2. **Close Modal on Outside Click**: Implement a feature to close the modal when the user clicks outside the modal and background.
+3. **View Tasks by Timeframe**: Add options to view tasks due today, this week, or this month.
+4. **Dropdown Project Selection**: Allow users to select a project from a dropdown menu while adding tasks.
+5. **Checklist Option**: Add an option to mark tasks as complete through a checklist.
+6. **Archive Feature**:
+   - Enable users to delete tasks, moving them to an "Archive" section.
+   - Automatically delete archived tasks after 30 days.
+   - Provide an option to restore deleted tasks from the archive before they are permanently removed.
 
 #### 🛠️ Built with
 
