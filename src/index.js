@@ -261,12 +261,16 @@ const deleteTodo = (projectIndex, index) => {
     document.getElementById('projectModalTitle').textContent = 'New Project'; // Reset modal title for project
 };
 
-
-
-
 const showModal = (modalId) => {
   const modal = document.getElementById(modalId);
   modal.style.display = 'block';
+
+    // Focus the first input field in the modal
+    const firstInput = modal.querySelector('input[autofocus]');
+    if (firstInput) {
+      firstInput.focus();
+    }
+  
 
   const closeBtn = modal.querySelector('.closeBtn');
   closeBtn.addEventListener('click', () => {
@@ -274,23 +278,7 @@ const showModal = (modalId) => {
     resetModal(); 
   });
 
-  // Close modal when clicking outside of the modal content
-  // window.addEventListener("click", closeModalOnOutsideClick(e, modalId));
-
 };
-
-// Close modal on outside click
-// function closeModalOnOutsideClick(e, modalId) {
-//   const modal = document.getElementById(modalId);
-//   const modalContent = document.getElementById('.modal-content');
-
-//  // Check if the click is outside the modal content
-//  if (!modalContent.contains(e.target)) {
-//   modal.style.display = 'none'; // Close modal
-//   resetModal(); // Reset modal data when closed
-//   window.removeEventListener("click", (e) => closeModalOnOutsideClick(e, modalId)); // Remove the event listener
-// }
-// };
 
 let selectedPriority = ''; // Variable to store the selected priority
 
@@ -342,6 +330,7 @@ let selectedProjectIndex = null;
     modal.style.display = 'none';
     updateButtonStyles(); // Reset button styles
     resetModal(); 
+
   };
 
 
